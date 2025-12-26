@@ -41,11 +41,27 @@ body {
     height: 100%;
 }
 
-html.theme-anim,
-html.theme-anim * {
-    transition: background-color 260ms ease, color 260ms ease,
-        border-color 260ms ease, box-shadow 260ms ease, transform 260ms ease,
-        opacity 260ms ease, filter 260ms ease !important;
+/* Theme animation (lighter for mobile phones): only animate key containers */
+html.theme-anim body,
+html.theme-anim .card,
+html.theme-anim .panel,
+html.theme-anim .floating-bar,
+html.theme-anim .modal,
+html.theme-anim input,
+html.theme-anim .btn,
+html.theme-anim .fab,
+html.theme-anim .icon-btn {
+    transition: background-color 220ms ease, color 220ms ease,
+        border-color 220ms ease, box-shadow 220ms ease !important;
+}
+
+html.theme-anim .card,
+html.theme-anim .floating-bar {
+    backdrop-filter: none !important;
+}
+html.theme-anim .overlay.open {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
 
 body {
@@ -479,7 +495,7 @@ html[data-theme="light"] .fab:hover {
     cursor: pointer;
 }
 
-/* Help Modal - stronger blur & readability in dark */
+/* Help Modal */
 .overlay {
     position: fixed;
     inset: 0;
@@ -611,7 +627,16 @@ html[data-theme="light"] .modal-body code {
     }
 }
 
+/* reduce theme animation on mobile phones */
 @media (max-width: 520px) {
+    html.theme-anim body,
+    html.theme-anim .card,
+    html.theme-anim .panel,
+    html.theme-anim .floating-bar,
+    html.theme-anim .modal {
+        transition-duration: 160ms !important;
+    }
+
     .actions-row {
         flex-wrap: wrap;
     }

@@ -61,7 +61,7 @@ function pick(arr, salt = 0) {
     return arr[(rnd[0] + salt) % arr.length];
 }
 
-// ---------- Theme (animated) ----------
+// ---------- Theme Changing ----------
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 function applyTheme(theme) {
@@ -96,10 +96,9 @@ function toggleThemeAnimated() {
     }, 320);
 }
 
-// Apply initial theme WITHOUT saving it as a user override
 applyTheme(getInitialTheme());
 
-// Optional: if user has NOT chosen, follow system changes
+// If user has NOT chosen, follow system changes
 const media = window.matchMedia?.("(prefers-color-scheme: dark)");
 media?.addEventListener?.("change", (e) => {
     const saved = localStorage.getItem("theme");
@@ -302,8 +301,7 @@ async function sha1Hex(text) {
         .toUpperCase();
 }
 
-// ---------- Copy (button morph to Copied!) ----------
-// IMPORTANT: no toast("Copied.") here, only button animation.
+// ---------- Copy ----------
 copyBtn.addEventListener("click", async () => {
     const pw = passwordInput.value;
     if (!pw) return toast("Nothing to copy.");
