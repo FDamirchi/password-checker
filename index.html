@@ -1,25 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Password Checker</title>
         <link rel="stylesheet" href="styles.css" />
     </head>
 
     <body>
         <main class="card">
-            <h1>Password Checker</h1>
+            <header class="header">
+                <h1>Password Checker</h1>
+                <p class="sub">
+                    Strength (zxcvbn) + privacy-preserving breach check (HIBP).
+                </p>
+            </header>
 
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter password" />
+            <label class="label" for="password">Password</label>
 
-            <div class="meter">
+            <div class="input-row">
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="Enter password"
+                />
+                <button
+                    id="toggle-visibility"
+                    class="icon-btn"
+                    type="button"
+                    aria-label="Toggle visibility"
+                >
+                    👁️
+                </button>
+            </div>
+
+            <div class="meter" aria-label="strength meter">
                 <div class="meter-fill"></div>
             </div>
 
-            <div id="result" class="result"></div>
+            <section class="panel">
+                <div class="row">
+                    <div id="strengthBadge" class="badge neutral">—</div>
+
+                    <div class="meta">
+                        <div class="meta-title">Estimated crack time</div>
+                        <div id="crackTime" class="meta-value">—</div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="meta">
+                    <div class="meta-title">Why / Suggestions</div>
+                    <ul id="suggestions" class="list"></ul>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="row">
+                    <div class="meta">
+                        <div class="meta-title">HIBP breach check</div>
+                        <div id="hibpText" class="meta-value">
+                            Not checked yet
+                        </div>
+                    </div>
+                    <div id="hibpStatus" class="pill neutral">…</div>
+                </div>
+            </section>
+
+            <footer class="footer">
+                <span class="hint"
+                    >Tip: we never send your password to any server.</span
+                >
+            </footer>
         </main>
+
+        <footer class="floating-bar" aria-label="footer links">
+            <div class="fb-left">
+                <span class="made"
+                    >Made with <span class="heart">♥</span> by Frozen
+                    Fedora</span
+                >
+                <span class="dot">•</span>
+                <span class="year" id="year"></span>
+            </div>
+
+            <div class="fb-right">
+                <a
+                    class="fab"
+                    href="https://github.com/FDamirchi/password-checker"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Repository"
+                >
+                    Repo
+                </a>
+                <a
+                    class="fab"
+                    href="https://github.com/FDamirchi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="GitHub Profile"
+                >
+                    GitHub
+                </a>
+                <a
+                    class="fab"
+                    href="https://haveibeenpwned.com/Passwords"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="HIBP Pwned Passwords"
+                >
+                    HIBP
+                </a>
+                <a
+                    class="fab ghost"
+                    href="LICENSE"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="MIT License"
+                >
+                    MIT
+                </a>
+            </div>
+        </footer>
 
         <script
             defer
