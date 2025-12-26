@@ -12,7 +12,7 @@
             <header class="header">
                 <h1>Password Checker</h1>
                 <p class="sub">
-                    Strength (zxcvbn) + privacy-preserving breach check (HIBP).
+                    Strength (zxcvbn) + privacy-first breach check (HIBP).
                 </p>
             </header>
 
@@ -29,9 +29,37 @@
                     class="icon-btn"
                     type="button"
                     aria-label="Toggle visibility"
+                    title="Show/Hide"
                 >
                     👁️
                 </button>
+            </div>
+
+            <div class="actions-row">
+                <button
+                    id="genBtn"
+                    class="btn"
+                    type="button"
+                    title="Generate a stronger similar password"
+                >
+                    ✨ Generate stronger
+                </button>
+
+                <button
+                    id="copyBtn"
+                    class="btn ghost"
+                    type="button"
+                    title="Copy password to clipboard"
+                >
+                    📋 Copy
+                </button>
+
+                <div
+                    id="toast"
+                    class="toast"
+                    aria-live="polite"
+                    aria-atomic="true"
+                ></div>
             </div>
 
             <div class="meter" aria-label="strength meter">
@@ -66,15 +94,108 @@
                     </div>
                     <div id="hibpStatus" class="pill neutral">…</div>
                 </div>
-            </section>
 
-            <footer class="footer">
-                <span class="hint"
-                    >Tip: we never send your password to any server.</span
-                >
-            </footer>
+                <div class="mini">
+                    <span class="mini-dot"></span>
+                    <span class="mini-text">
+                        Privacy: we only send the first 5 chars of a SHA-1 hash
+                        (k-anonymity).
+                    </span>
+                </div>
+            </section>
         </main>
 
+        <!-- Help Modal -->
+        <div id="helpOverlay" class="overlay" aria-hidden="true">
+            <div
+                class="modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="helpTitle"
+            >
+                <div class="modal-head">
+                    <h2 id="helpTitle">Help</h2>
+                    <button
+                        id="helpClose"
+                        class="icon-btn"
+                        type="button"
+                        aria-label="Close help"
+                        title="Close"
+                    >
+                        ✕
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="help-lead">
+                        This tool checks <b>strength</b> locally and checks
+                        <b>breach exposure</b> using HIBP (without sending your
+                        raw password).
+                    </p>
+
+                    <h3>What happens when you type</h3>
+                    <ul>
+                        <li>
+                            <b>Strength score</b> is calculated by
+                            <code>zxcvbn</code> (guessability, not just rules).
+                        </li>
+                        <li>
+                            <b>Suggestions</b> explain what makes the password
+                            weak and how to improve it.
+                        </li>
+                        <li>
+                            <b>Crack time</b> is an estimate—use it as guidance,
+                            not a guarantee.
+                        </li>
+                    </ul>
+
+                    <h3>HIBP privacy (important)</h3>
+                    <ul>
+                        <li>
+                            Your password is hashed in your browser using
+                            <b>SHA-1</b>.
+                        </li>
+                        <li>
+                            Only the <b>first 5</b> hex characters of that hash
+                            are sent to HIBP (k-anonymity).
+                        </li>
+                        <li>
+                            HIBP returns many suffixes; we match yours locally.
+                        </li>
+                        <li>
+                            Result:
+                            <b>HIBP never receives your full hash or password</b
+                            >.
+                        </li>
+                    </ul>
+
+                    <h3>Generator</h3>
+                    <ul>
+                        <li>
+                            “Generate stronger” keeps a similar vibe
+                            (words/digits style) but improves strength.
+                        </li>
+                        <li>
+                            It tries multiple candidates and picks a stronger
+                            one using <code>zxcvbn</code>.
+                        </li>
+                    </ul>
+
+                    <p class="help-note">
+                        Best practice: use a password manager + unique passwords
+                        per site.
+                    </p>
+                </div>
+
+                <div class="modal-foot">
+                    <button id="helpOk" class="btn" type="button">
+                        Got it
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Footer Bar -->
         <footer class="floating-bar" aria-label="footer links">
             <div class="fb-left">
                 <span class="made"
@@ -91,37 +212,43 @@
                     href="https://github.com/FDamirchi/password-checker"
                     target="_blank"
                     rel="noopener noreferrer"
-                    title="Repository"
                 >
                     Repo
                 </a>
+
                 <a
                     class="fab"
                     href="https://github.com/FDamirchi"
                     target="_blank"
                     rel="noopener noreferrer"
-                    title="GitHub Profile"
                 >
                     GitHub
                 </a>
+
                 <a
                     class="fab"
                     href="https://haveibeenpwned.com/Passwords"
                     target="_blank"
                     rel="noopener noreferrer"
-                    title="HIBP Pwned Passwords"
                 >
                     HIBP
                 </a>
+
                 <a
                     class="fab ghost"
                     href="LICENSE"
                     target="_blank"
                     rel="noopener noreferrer"
-                    title="MIT License"
                 >
                     MIT
                 </a>
+
+                <button id="themeBtn" class="fab btnlike" type="button">
+                    🌓
+                </button>
+                <button id="helpBtn" class="fab btnlike" type="button">
+                    ?
+                </button>
             </div>
         </footer>
 
