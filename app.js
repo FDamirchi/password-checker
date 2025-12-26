@@ -64,9 +64,22 @@ function pick(arr, salt = 0) {
 // ---------- Theme (animated) ----------
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-function setTheme(theme) {
+function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
+}
+
+function setTheme(theme) {
+    applyTheme(theme);
+    localStorage.setItem("theme", theme); // only for manual choice
+}
+
+function getInitialTheme() {
+    const saved = localStorage.getItem("theme");
+    if (saved === "light" || saved === "dark") return saved;
+
+    if (window.matchMedia?.("(prefers-color-scheme: dark)").matches)
+        return "dark";
+    return "light";
 }
 
 function toggleThemeAnimated() {
@@ -74,7 +87,8 @@ function toggleThemeAnimated() {
 
     const current =
         document.documentElement.getAttribute("data-theme") || "dark";
-    setTheme(current === "dark" ? "light" : "dark");
+    const next = current === "dark" ? "light" : "dark";
+    setTheme(next);
 
     window.clearTimeout(toggleThemeAnimated._t);
     toggleThemeAnimated._t = window.setTimeout(() => {
@@ -82,8 +96,17 @@ function toggleThemeAnimated() {
     }, 320);
 }
 
-const savedTheme = localStorage.getItem("theme");
-setTheme(savedTheme || "dark");
+// Apply initial theme WITHOUT saving it as a user override
+applyTheme(getInitialTheme());
+
+// Optional: if user has NOT chosen, follow system changes
+const media = window.matchMedia?.("(prefers-color-scheme: dark)");
+media?.addEventListener?.("change", (e) => {
+    const saved = localStorage.getItem("theme");
+    if (saved === "light" || saved === "dark") return; // user override exists
+    applyTheme(e.matches ? "dark" : "light");
+});
+
 themeBtn?.addEventListener("click", toggleThemeAnimated);
 
 // ---------- Help modal ----------
